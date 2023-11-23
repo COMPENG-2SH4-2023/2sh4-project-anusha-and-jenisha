@@ -10,7 +10,6 @@
 using namespace std;
 
 
-
 class GameMechs
 {
     // Construct the remaining declaration from the project manual.
@@ -22,9 +21,10 @@ class GameMechs
     private:
         char input;
         bool exitFlag;
+
         bool loseFlag;
         int score;
-
+        
         int boardSizeX;
         int boardSizeY;
 
@@ -42,7 +42,7 @@ class GameMechs
         int getBoardSizeX();
         int getBoardSizeY();
 
-        // Debug-use method to increment the score
+          // Debug-use method to increment the score
         void incrementScore();
 
         // Debug-use method to set the lose flag
@@ -50,7 +50,8 @@ class GameMechs
 
         // Debug-use method to get the lose flag status
         bool getLoseFlagStatus();
-    
+      
+
 };
 
 #endif

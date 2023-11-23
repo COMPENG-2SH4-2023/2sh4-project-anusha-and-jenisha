@@ -1,14 +1,15 @@
 #include "GameMechs.h"
 #include "MacUILib.h"
 
-
 GameMechs::GameMechs()
 {
 
     input = 0;
     exitFlag = false;
-    boardSizeX = 20;
-    boardSizeY = 10;
+    boardSizeX = 10;
+    boardSizeY = 30;
+
+   
 
 }
 
@@ -28,25 +29,23 @@ GameMechs::GameMechs(int boardX, int boardY)
 
 bool GameMechs::getExitFlagStatus()
 {
-    return exitFlag;
+     return exitFlag;
 
 }
 
 char GameMechs::getInput()
 {
-
-    if(MacUILib_hasChar()) //Check whether there's an input for process
+     if(MacUILib_hasChar()) //Check whether there's an input for process
     {
         input = MacUILib_getChar();
     }
 
     return input;
-
 }
 
 int GameMechs::getBoardSizeX()
 {
-    return boardSizeX;
+   return boardSizeX;
 }
 
 int GameMechs::getBoardSizeY()
@@ -58,7 +57,6 @@ int GameMechs::getBoardSizeY()
 void GameMechs::setExitTrue()
 {
     exitFlag = true;
-
 }
 
 void GameMechs::setInput(char this_input)
@@ -69,8 +67,9 @@ void GameMechs::setInput(char this_input)
 
 void GameMechs::clearInput()
 {
-    input = NULL;
-    //input = 0;
+    //input = NULL;
+    input = 0;
+
 }
 
 void GameMechs::incrementScore()
