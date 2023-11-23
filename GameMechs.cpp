@@ -47,8 +47,6 @@ char GameMechs::getInput()
 int GameMechs::getBoardSizeX()
 {
     return boardSizeX;
-
-
 }
 
 int GameMechs::getBoardSizeY()
