@@ -3,6 +3,7 @@
 #include "objPos.h"
 #include "Player.h" 
 #include "GameMechs.h"
+#include "Food.h"
 
 using namespace std;
 
@@ -16,6 +17,8 @@ objPos myPos;
 //these are both references (pointers) of their respective class type
 GameMechs* myGM;
 Player* myPlayer;
+
+Food* myFood;
 
 //bool exitFlag;
 
@@ -57,6 +60,9 @@ void Initialize(void)
     //Constructor: this sets the initial starting position of the '*' - see the Player(GameMechs* thisGMRef) method
     myPlayer = new Player(myGM);
 
+    myFood = new Food();
+
+
     //initialize the starting position of the symbol
     //myPos.setObjPos(5, 9, '*');
 
@@ -80,6 +86,7 @@ void RunLogic(void)
 
     //must move the player after updating position in previous line
     myPlayer->movePlayer();
+
    
 }
 
@@ -104,6 +111,14 @@ void DrawScreen(void)
     //save the boardsize values into variables
     int sizeX = myGM->getBoardSizeX();
     int sizeY = myGM->getBoardSizeY();
+
+
+
+    objPos foodPosition;
+    myFood->getFoodPos(foodPosition);
+    symbolArray[foodPosition.x][foodPosition.y] = foodPosition.symbol;
+    MacUILib_printf("Food Pos: <%d, %d> + %c\n", foodPosition.x, foodPosition.y, foodPosition.symbol);
+
 
     //For loop assigns #'s and ' 's to the array (no-printing here)
     //Border height=10 (0-9) width=20 (0-19)
