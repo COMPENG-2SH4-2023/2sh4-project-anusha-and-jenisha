@@ -60,7 +60,7 @@ void Initialize(void)
     //Constructor: this sets the initial starting position of the '*' - see the Player(GameMechs* thisGMRef) method
     myPlayer = new Player(myGM);
 
-    myFood = new Food();
+    myFood = new Food(myGM);
 
 
     //initialize the starting position of the symbol
@@ -99,6 +99,7 @@ void DrawScreen(void)
     objPos tempPos;
     myPlayer->getPlayerPos(tempPos); //get the player pos
 
+
     /*MacUILib_printf("BoardSize: %dx%d, Player Pos: <%d, %d> + %c\n", 
                     myGM->getBoardSizeX(), 
                     myGM->getBoardSizeY(), 
@@ -114,10 +115,9 @@ void DrawScreen(void)
 
 
 
-    objPos foodPosition;
-    myFood->getFoodPos(foodPosition);
-    symbolArray[foodPosition.x][foodPosition.y] = foodPosition.symbol;
-    MacUILib_printf("Food Pos: <%d, %d> + %c\n", foodPosition.x, foodPosition.y, foodPosition.symbol);
+    // Get the position of the food
+    objPos foodPos;
+    myFood->getFoodPos(foodPos);
 
 
     //For loop assigns #'s and ' 's to the array (no-printing here)
@@ -135,9 +135,12 @@ void DrawScreen(void)
 
             }else {
                 symbolArray[i][j] = ' '; 
+
             }
         }
     }
+
+
 
 
     //must access the x and y position coords and symbol, then update their location in the symbolArray
@@ -146,9 +149,8 @@ void DrawScreen(void)
 
     //print the symbol at it's initial position
     //MacUILib_printf("Object: <%d, %d> with %c\n", myPos.x, myPos.y, myPos.symbol);
+      symbolArray[foodPos.x][foodPos.y] = '&';
 
-
-    
 
     //PRINTING symbolArray[][] on the screen
     for (int i = 0; i < sizeX+1; i++){ //10
@@ -164,6 +166,8 @@ void DrawScreen(void)
     }
     
 }
+
+
 
 void LoopDelay(void){
     MacUILib_Delay(DELAY_CONST); // 0.1s delay
