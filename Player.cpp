@@ -6,30 +6,51 @@ Player::Player(GameMechs* thisGMRef)
 {
     mainGameMechsRef = thisGMRef;
     myDir = STATE_IDLE; //USED to be STOP, change back if causing errors STOP;
+    
+    //create a temporary position and then insert it in the list (insertHead)
+    objPos tempPos;
+    tempPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '*');
 
+    //create an array on the heap
+    playerPosList = new objPosArrayList();
+    playerPosList->insertHead(tempPos);
+
+    playerPosList->insertHead(tempPos);
+    playerPosList->insertHead(tempPos);
+    playerPosList->insertHead(tempPos);
+    playerPosList->insertHead(tempPos);
+    
     // more actions to be included
 
+
+    //OLD CODE: no longer true for array list
     //initiazing the initial position of the symbol
     //.setObjPos is a function in objPos.cpp
     //playerPos.setObjPos(5, 9, '*');
-    playerPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '*');
+    //playerPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '*');
 }
 
 
 Player::~Player()
 {
     // delete any heap members here
+    //no [] here - only 1 position in the list
+    delete playerPosList;
 }
 
-void Player::getPlayerPos(objPos &returnPos)
+//must change this method to accomodate for the array reference
+//void Player::getPlayerPos(objPos &returnPos)
+objPosArrayList* Player::getPlayerPos()
 {
     // return the reference to the playerPos arrray list
+    return playerPosList;
 
+    //OLD CODE for returning the position of 1 symbol character
     //right now we only have 1 position
     //.setObjPos is a method in objPos.cpp
 
     //returnPos is an object, and the below line is setting the position of this object to the current position of the character
-    returnPos.setObjPos(playerPos.x, playerPos.y, playerPos.symbol);
+    //returnPos.setObjPos(playerPos.x, playerPos.y, playerPos.symbol);
 }
 
 void Player::updatePlayerDir()
@@ -103,29 +124,34 @@ void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
 
+    objPos currHead; //holding the position information of the current head 
+    playerPosList->getHeadElement(currHead);
+
+
+
    //update player position based on STATE not input character
     if(myDir == STATE_UP){
         
         //update the X-position in the array
-        playerPos.x = playerPos.x - 1; //posX = posX - 1;
+        currHead.x = currHead.x - 1; //posX = posX - 1;
 
 
     }else if(myDir == STATE_LEFT){
         
         //update the Y-position in the array
-        playerPos.y = playerPos.y -1; //posY = posY - 1;
+        currHead.y = currHead.y -1; //posY = posY - 1;
         
 
     }else if(myDir == STATE_DOWN){
 
         //update the X-position in the array
-        playerPos.x = playerPos.x + 1; //posX = posX + 1;
+        currHead.x = currHead.x + 1; //posX = posX + 1;
 
        
     }else if(myDir == STATE_RIGHT){
 
         //update the Y-position in the array
-        playerPos.y = playerPos.y + 1; //posY = posY + 1;
+        currHead.y = currHead.y + 1; //posY = posY + 1;
 
     
     }
@@ -135,46 +161,46 @@ void Player::movePlayer()
       //need to figure out how to access the array that's printed
       //i think you can just change the array in the draw method by calling these different coords and symbols!!!
       //remove the symbolArray stuff here when you've confirmed this
-     if(myDir == STATE_UP &&  playerPos.x  == 0){
+     if(myDir == STATE_UP &&  currHead.x  == 0){
          
-         playerPos.symbol = '#';
+         currHead.symbol = '#';
         
         //symbolArray[movePos.x][movePos.y] = movePos.symbol;
         
         //update the X-position in the array
         //the playerPos should be 1 less than the X boardsize (ie. 1 less than the # symbol)
-        playerPos.x = mainGameMechsRef->getBoardSizeX()-1; //8;
+        currHead.x = mainGameMechsRef->getBoardSizeX()-1; //8;
 
-    }else if(myDir == STATE_LEFT &&  playerPos.y  == 0){
+    }else if(myDir == STATE_LEFT &&  currHead.y  == 0){
         
-        playerPos.symbol = '#';
+        currHead.symbol = '#';
         
         //symbolArray[movePos.x][movePos.y] = movePos.symbol;
 
         //update the Y-position in the array
         //the playerPos should be 1 less than the boardsize Y
-        playerPos.y = mainGameMechsRef->getBoardSizeY()-1; //18;
+        currHead.y = mainGameMechsRef->getBoardSizeY()-1; //18;
 
-    }else if(myDir == STATE_DOWN &&  playerPos.x == mainGameMechsRef->getBoardSizeX()){ //9
+    }else if(myDir == STATE_DOWN &&  currHead.x == mainGameMechsRef->getBoardSizeX()){ //9
 
-        playerPos.symbol = '#';
+        currHead.symbol = '#';
         
         //symbolArray[movePos.x][movePos.y] = movePos.symbol;
 
         //update the X-position in the array
-        playerPos.x = 1;
+        currHead.x = 1;
 
-    }else if(myDir == STATE_RIGHT &&  playerPos.y  == mainGameMechsRef->getBoardSizeY()){ //19
+    }else if(myDir == STATE_RIGHT &&  currHead.y  == mainGameMechsRef->getBoardSizeY()){ //19
 
-         playerPos.symbol = '#';
+         currHead.symbol = '#';
         
         //symbolArray[movePos.x][movePos.y] = movePos.symbol;
 
         //update the Y-position in the array
-        playerPos.y = 1;
+        currHead.y = 1;
     
     }else{
-        playerPos.symbol = '*';
+        currHead.symbol = '*';
         //normal movement - no wraparound here
         
         //symbolArray[movePos.x][movePos.y] = movePos.symbol;
@@ -182,7 +208,11 @@ void Player::movePlayer()
     }
 
 
-    //mainGameMechsRef
+    //new current head should be inserted to the head of the list
+    playerPosList->insertHead(currHead);
+
+    //then remove tail
+    playerPosList->removeTail();
 
 
 }
