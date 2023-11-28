@@ -86,46 +86,62 @@ void objPosArrayList::insertTail(objPos thisPos)
 void objPosArrayList::removeHead()
 {
 
-    //MAY NEED TO ADD A CONDITON HERE LATER ON
+    //MAY NEED TO CHANGE THE CONDITON HERE LATER ON
     //in the actual game, the list size should be 1 at all times
     //however, the test case lets you remove head when there's only 1 element in it?
 
 
-    //shuffle all elements forward, this overwrites the current head values in the array
-    for(int i =0; i < listSize-1; i++){
-        aList[i] = aList[i+1];
+    if(listSize == 0){
 
+        //cout << "list is empty, cannot remove" << endl;
+        return;
+    }else{
+
+        //shuffle all elements forward, this overwrites the current head values in the array
+        for(int i =0; i < listSize-1; i++){
+            aList[i] = aList[i+1];
+
+        }
+
+        //make the last element null since everything shifted forward
+        aList[listSize-1].x = 0; // NULL; 
+        aList[listSize-1].y = 0;
+        aList[listSize-1].symbol = 0;
+
+        //decrease the listSize by 1 bc we are removing 1 element at the end
+        listSize--;
     }
-
-    //make the last element null since everything shifted forward
-    aList[listSize-1].x = 0; // NULL; 
-    aList[listSize-1].y = 0;
-    aList[listSize-1].symbol = 0;
-
-    //decrease the listSize by 1 bc we are removing 1 element at the end
-    listSize--;
 }
 
 void objPosArrayList::removeTail()
 {
 
-    //MAY NEED TO ADD A CONDITON HERE LATER ON
+    //MAY NEED TO CHANGE THE CONDITON HERE LATER ON
     //in the actual game, the list size should be 1 at all times
     //however, the test case lets you remove tail when there's only 1 element in it?
 
-    //make the tail element 0
-    aList[listSize-1].x = 0; //NULL;
-    aList[listSize-1].y = 0;
-    aList[listSize-1].symbol = 0;
 
-    //decrease the listSize by 1 bc we are removing 1 element at the end
-    listSize--;
+    if(listSize == 0){
+
+        //cout << "list is empty, cannot remove" << endl;
+        return;
+
+    }else{
+        //make the tail element 0
+        aList[listSize-1].x = 0; //NULL;
+        aList[listSize-1].y = 0;
+        aList[listSize-1].symbol = 0;
+
+        //decrease the listSize by 1 bc we are removing 1 element at the end
+        listSize--;
+    }
 
 }
 
 void objPosArrayList::getHeadElement(objPos &returnPos)
 {
     returnPos.setObjPos(aList[0]);
+
 }
 
 void objPosArrayList::getTailElement(objPos &returnPos)

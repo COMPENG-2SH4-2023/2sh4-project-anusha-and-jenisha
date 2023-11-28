@@ -4,6 +4,7 @@
 #include "Player.h" 
 #include "GameMechs.h"
 #include "Food.h"
+#include "objPosArrayList.h"
 
 using namespace std;
 
@@ -19,6 +20,10 @@ GameMechs* myGM;
 Player* myPlayer;
 
 Food* myFood;
+
+
+ //get the position of the food
+    objPos foodPos;
 
 //bool exitFlag;
 
@@ -36,7 +41,7 @@ int main(void)
 
     Initialize();
 
-    while(myGM->getExitFlagStatus() == false)  //(exitFlag == false) 
+    while(myGM->getExitFlagStatus() == false)   
     {
         GetInput();
         RunLogic();
@@ -62,13 +67,17 @@ void Initialize(void)
 
     myFood = new Food(myGM);
 
+    //food
+    //objPos tempPos{1, 1, 'o'};
+    //myGM->generateFood(tempPos); //change this to an array list operation
+
+     myFood->generateFood(foodPos);
+
 
     //initialize the starting position of the symbol
     //myPos.setObjPos(5, 9, '*');
 
     //exitFlag = false;
-
-    //initialize 
 
 }
 
@@ -87,6 +96,11 @@ void RunLogic(void)
     //must move the player after updating position in previous line
     myPlayer->movePlayer();
 
+    //clear the key input so it's not repeated processed
+    myGM->clearInput(); 
+
+
+
    
 }
 
@@ -96,9 +110,13 @@ void DrawScreen(void)
 
     //Why pass tempPos in? ans: the input parameter of the function is (objPos &returnPos) an address of type objPos
 
-    objPos tempPos;
-    myPlayer->getPlayerPos(tempPos); //get the player pos
 
+    objPosArrayList* playerBody = myPlayer->getPlayerPos();
+    objPos tempBody;
+
+    //OLD CODE
+    //objPos tempPos;
+    //myPlayer->getPlayerPos(tempPos); //get the player pos
 
     /*MacUILib_printf("BoardSize: %dx%d, Player Pos: <%d, %d> + %c\n", 
                     myGM->getBoardSizeX(), 
@@ -113,10 +131,8 @@ void DrawScreen(void)
     int sizeX = myGM->getBoardSizeX();
     int sizeY = myGM->getBoardSizeY();
 
-
-
-    // Get the position of the food
-    objPos foodPos;
+   
+   
     myFood->getFoodPos(foodPos);
 
 
@@ -135,27 +151,37 @@ void DrawScreen(void)
 
             }else {
                 symbolArray[i][j] = ' '; 
-
             }
+
+             //update position of snake in the symbolArray
+            for(int k = 0; k < playerBody->getSize(); k++){
+                playerBody->getElement(tempBody, k);
+                if(tempBody.x == i && tempBody.y == j){
+                    symbolArray[i][j] = tempBody.symbol;
+
+                }
+            }
+
         }
     }
 
 
-
+   
 
     //must access the x and y position coords and symbol, then update their location in the symbolArray
     //update the xy coords and position of the symbol
-    symbolArray[tempPos.x][tempPos.y] = tempPos.symbol;
+    //symbolArray[tempPos.x][tempPos.y] = tempPos.symbol;
 
-    //print the symbol at it's initial position
-    //MacUILib_printf("Object: <%d, %d> with %c\n", myPos.x, myPos.y, myPos.symbol);
-      symbolArray[foodPos.x][foodPos.y] = '&';
+    
+    //put the food symbol in the array 
+    symbolArray[foodPos.x][foodPos.y] = '&';
 
+    
 
-    //PRINTING symbolArray[][] on the screen
-    for (int i = 0; i < sizeX+1; i++){ //10
+    //PRINTING symbolArray[][] on the screen (including snake!!)
+    for (int i = 0; i < sizeX; i++){ //10
 
-        for(int j = 0; j < sizeY+1; j++){ //20
+        for(int j = 0; j < sizeY; j++){ //20
 
             MacUILib_printf("%c", symbolArray[i][j]);
             //cout << symbolArray[i][j]; 
@@ -166,8 +192,6 @@ void DrawScreen(void)
     }
     
 }
-
-
 
 void LoopDelay(void){
     MacUILib_Delay(DELAY_CONST); // 0.1s delay
