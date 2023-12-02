@@ -284,53 +284,14 @@ void Player::movePlayer()
   mainFoodRef->getFoodPos(foodPos);
 
   if (currHead.isPosEqual(&foodPos)) {
-      // Overlap with food, insert the head without removing the tail
+
       playerPosList->insertHead(currHead);
-      mainFoodRef->generateFood(*playerPosList);  // Assuming generateFood handles avoiding player body
+      mainFoodRef->generateFood(*playerPosList);  
   } else {
-      // No overlap, carry out regular insert + remove
+
       playerPosList->insertHead(currHead);
       playerPosList->removeTail();
   }
-
-
-
-
-
-
-
-
-
-//   if (currHead.isPosEqual(&foodPos)) {
-//       // Overlap with food, insert the head without removing the tail
-//       playerPosList->insertHead(currHead);
-//       mainFoodRef->generateFood(*playerPosList);  // Assuming generateFood handles avoiding player body
-//   } else {
-//       // No overlap, carry out regular insert + remove
-//       playerPosList->removeTail();
-//   }
-
-
-
-
-
-
-
-
-   // if (isPosEqual(currHead)) {
-   //     // Insert the head without removing the tail
-   //     playerPosList->insertHead(currHead);
-
-
-   //     // Call generateFood() to generate new food on the game board
-   //     mainGameMechsRef->generateFood();
-   // } else {
-   //     // Regular insert + remove to complete the snake movement
-   //     playerPosList->insertHead(currHead);
-   //     playerPosList->removeTail();
-   // }
-
-
 
 
 }
