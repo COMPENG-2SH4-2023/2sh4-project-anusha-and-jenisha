@@ -146,11 +146,6 @@ void RunLogic(void)
    //clear the key input so it's not repeated processed
    myGM->clearInput();
 
-
-
-
-
-
  
 }
 
@@ -190,6 +185,8 @@ void DrawScreen(void)
    int sizeX = myGM->getBoardSizeX();
    int sizeY = myGM->getBoardSizeY();
 
+    //int score = myGM->incrementScore();
+
 
  
  
@@ -202,7 +199,6 @@ void DrawScreen(void)
    //Border height=10 (0-9) width=20 (0-19)
    //outer loop controls iterating through the height, inner loop checks width
    for (int i = 0; i < sizeX; i++){ //10
-
 
        for(int j = 0; j < sizeY; j++){ //20
           
@@ -231,7 +227,17 @@ void DrawScreen(void)
 
 
        }
+
+       
    }
+    //MacUILib_printf("\nScore: %d", score);
+   int score = myGM->getScore();
+   MacUILib_printf("\nScore: %d", score);
+   MacUILib_printf("\nFood Position: (%d, %d)\n", foodPos.x, foodPos.y);
+
+   
+
+
 
 
 
@@ -285,4 +291,5 @@ void CleanUp(void)
 
    delete myGM;       // Delete the GameMechs object
    delete myPlayer;   // Delete the Player object
+   delete myFood;
 }
