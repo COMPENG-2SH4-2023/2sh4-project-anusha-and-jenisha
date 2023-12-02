@@ -11,14 +11,15 @@ class Food
         // Food generation
         objPos foodPos;
         GameMechs* mainGameMechsRef;
- //use pointer
+    //use pointer
     public:
         Food(GameMechs* thisGMRef); // Default constructor for Food class
         ~Food(); // Destructor 
 
 
     // Method for generating random food
-    void generateFood(objPos blockOff); 
+    void generateFood(objPosArrayList& playerPosList); 
+    //void generateFood(objPos blockOff); 
 
     // Getter method for obtaining the current position of the food
     void getFoodPos(objPos &returnPos);
