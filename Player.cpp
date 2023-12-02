@@ -145,10 +145,9 @@ void Player::updatePlayerDir()
 
 
                break;
-           case 'q':  //press q (EXIT)
+           case 27:  //press q (EXIT)
                mainGameMechsRef->setExitTrue();
            break;
-
 
            default:
                break;
@@ -202,8 +201,6 @@ void Player::movePlayer()
 
        //update the Y-position in the array
        currHead.y = currHead.y + 1; //posY = posY + 1;
-
-
   
    }
 
@@ -279,20 +276,52 @@ void Player::movePlayer()
    playerPosList->removeTail();
 
 
+   playerPosList->insertHead(currHead);
 
-  objPos foodPos;
-  mainFoodRef->getFoodPos(foodPos);
 
-  if (currHead.isPosEqual(&foodPos)) {
 
-      playerPosList->insertHead(currHead);
-      mainFoodRef->generateFood(*playerPosList);  
-  } else {
+objPos foodPos;
+mainFoodRef->getFoodPos(foodPos);
 
-      playerPosList->insertHead(currHead);
-      playerPosList->removeTail();
-  }
 
+    // Check if the head overlaps with the food
+    if (checkFoodConsumption())
+    {
+        // If yes, increase the player length without removing the tail
+        increasePlayerLength();
+
+        // Generate new food
+        mainFoodRef->generateFood(*playerPosList); 
+        mainGameMechsRef->incrementScore();
+    }
+    else
+    {
+        playerPosList->removeTail();
+    }
 
 }
+
+bool Player::checkFoodConsumption()
+{
+    objPos currHead;
+    playerPosList->getHeadElement(currHead);
+
+    
+    objPos foodPos;
+    mainFoodRef->getFoodPos(foodPos);
+
+    return (currHead.x == foodPos.x && currHead.y == foodPos.y);
+}
+
+void Player::increasePlayerLength()
+{
+    // Insert the head, but DO NOT remove the tail
+    objPos currHead;
+    playerPosList->getHeadElement(currHead);
+    playerPosList->insertHead(currHead);
+}
+
+
+
+
 
