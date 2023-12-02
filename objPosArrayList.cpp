@@ -156,3 +156,11 @@ void objPosArrayList::getElement(objPos &returnPos, int index)
 
 
 }
+
+
+//added a method to update the symbol data in the array list
+//updates symbol at a particular index
+void objPosArrayList::updateSymbol(int index, char newSymbol){
+    aList[index].symbol = newSymbol;
+
+}
