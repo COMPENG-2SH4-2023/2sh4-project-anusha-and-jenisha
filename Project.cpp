@@ -13,7 +13,7 @@ using namespace std;
 //board size is defined in GameMechs.h class
 //global declaration of variable of type objPos
 //we can use any of the functions defined in the objPos.h class
-objPos myPos;
+    objPos myPos;
 
 //these are both references (pointers) of their respective class type
 GameMechs* myGM;
@@ -182,6 +182,9 @@ void DrawScreen(void)
         }
     }
 
+
+    playerBody->getHeadElement(myPos);
+
       //MacUILib_printf("\nScore: %d", score);
    int score = myGM->getScore();
    MacUILib_printf("\nScore: %d\n", score);
@@ -189,6 +192,9 @@ void DrawScreen(void)
    MacUILib_printf("lose Flag status: %d \n", myGM->getLoseFlagStatus());
     MacUILib_printf("list size: %d \n", playerBody->getSize());
     MacUILib_printf("constructor call: %d\n", myPlayer->constrFlag());
+     MacUILib_printf("Head Element: %d %d\n", myPos.x, myPos.y );
+    
+    
     //insert/rem head/tail
     //insertHead();)
 
