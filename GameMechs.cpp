@@ -64,7 +64,7 @@ int GameMechs::getBoardSizeY()
 
 void GameMechs::setExitTrue()
 {
-    exitFlag = true;
+    exitFlag = false;
 }
 
 void GameMechs::setInput(char this_input)
@@ -89,10 +89,10 @@ void GameMechs::incrementScore()
     // std::cout << "Score incremented! Current score: " << score << std::endl;
 }
 
-void GameMechs::setLoseFlag(bool value)
+void GameMechs::setLoseFlag()
 {
     // Set the lose flag and print a debug message
-    loseFlag = value;
+    loseFlag = true;
     // Add appropriate print statement for debugging
     // For example:
     // std::cout << "Lose flag set to: " << (loseFlag ? "true" : "false") << std::endl;
