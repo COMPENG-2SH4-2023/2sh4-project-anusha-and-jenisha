@@ -268,135 +268,121 @@ void Player::movePlayer()
         currHead.y = 1;
         currHead.symbol = '*';
     }
-    /*}else{
-        currHead.symbol = '*';
-        MacUILib_printf("head symbol * \n");
-        //normal movement - no wraparound here
-        
-        //symbolArray[movePos.x][movePos.y] = movePos.symbol;
+
+
+
+
+    if(checkSelfCollision()==true){
+
+        mainGameMechsRef->setLoseFlag();
+        mainGameMechsRef->setExitTrue();
+
+    } else{
        
-    }*/
 
+        if (checkFoodConsumption())
+        {
+             // If yes, increase the player length without removing the tail
+            increasePlayerLength();
+             // Generate new food
+            mainFoodRef->generateFood(*playerPosList);
+        }
+
+        playerPosList->insertHead(currHead);
+        playerPosList->removeTail();
  
-
-
-    //new current head should be inserted to the head of the list
-    playerPosList->insertHead(currHead);
-
-    //then remove tail
-    playerPosList->removeTail();
-
-//////
-    //playerPosList->insertHead(currHead);
-
-    objPos foodPos;
-    mainFoodRef->getFoodPos(foodPos);
+        
+    }
 
     // Check if the head overlaps with the food
-    if (checkFoodConsumption())
-    {
-        // If yes, increase the player length without removing the tail
-        increasePlayerLength();
-
-        // Generate new food
-        mainFoodRef->generateFood(*playerPosList); 
-        mainGameMechsRef->incrementScore();
-    }
-   /* else
-    {
-        playerPosList->removeTail();
-    }*/
-///////////
-
-    //need to change the symbol of the 2nd array element back to *
     objPos tempbody_pos2;
     playerPosList->getElement(tempbody_pos2, 1);
     tempbody_pos2.symbol = '*';
 
     playerPosList->updateSymbol(1, tempbody_pos2.symbol);
 
-
-
-
 }
+
 
 bool Player::checkFoodConsumption()
 {
     objPos currHead;
     playerPosList->getHeadElement(currHead);
 
-    
     objPos foodPos;
     mainFoodRef->getFoodPos(foodPos);
 
     return (currHead.x == foodPos.x && currHead.y == foodPos.y);
 }
 
+
 void Player::increasePlayerLength()
 {
     // Insert the head, but DO NOT remove the tail
-    objPos newHead;
-    playerPosList->getHeadElement(newHead);
-    playerPosList->insertHead(newHead);
+    // This will cause the list size, hence the snake length, to grow by 1
+    // The function already does this during food consumption, so this is just an example
+    objPos currHead;
+    playerPosList->getHeadElement(currHead);
+    playerPosList->insertHead(currHead);
 }
 
-//must check for self collision
-bool Player:: checkSelfCollision(){
 
-    //must check if the head coords = any of the snake body coords
-    //need to loop through elements in playerPosList array
-    
-    //getting the current head coords
+
+bool Player::checkSelfCollision(){
+  
+    objPos tempBodyPart;
     objPos currHeadC;
-    playerPosList->getHeadElement(currHeadC); 
-
-    //must get listSize
-    //objPosArrayList playerPosRef;
-    int posListSize = playerPosList->getSize();
-
-    //array coords of each element will be saved here
-    objPos arrayElements;
-    bool loseFlag = false;
-
-    //the playerPosList array size must be >= 1 to check for collision 
-    if(posListSize > 1){
-        //MacUILib_printf("posListSize status: %d\n", posListSize);
+    playerPosList->getHeadElement(currHeadC);
+    int i;
 
 
-        for(int i = 1; i < posListSize; i++){
+     for(i = 1; i < playerPosList->getSize(); i++){
+        playerPosList->getElement(tempBodyPart, i);
 
-            //coords are saved into arrayElements variable (type ObjPos)
-            playerPosList->getElement(arrayElements, i);
-
-            /*
-            MacUILib_printf("currHeadC.x status: %d\n", currHeadC.x);
-            MacUILib_printf("currHeadC.y status: %d\n", currHeadC.y);
-            MacUILib_printf("arrayElements.x status: %d\n", arrayElements.x);
-            MacUILib_printf("arrayElements.y status: %d\n", arrayElements.y);
-            */
-
-            if(currHeadC.x == arrayElements.x && currHeadC.y == arrayElements.y){
-            //if(arrayElements.isPosEqual(currHeadC)){
-                //set the loseFlag to true
-                loseFlag = true;
-                mainGameMechsRef->setLoseFlag(loseFlag);
-                //MacUILib_printf("loseFlag status: %d\n", loseFlag);
-
-                //set the exit flag to true
-                //mainGameMechsRef->setExitTrue();
-                //MacUILib_printf("exitFlag status: %d\n",  mainGameMechsRef->getExitFlagStatus());
-
-
-            }
+        
+        if(currHeadC.isPosEqual(&tempBodyPart)){
+            return true;
         }
-    }else{
-
-        loseFlag = false;
-        //MacUILib_printf("ELSE loseFlag status: %d\n", loseFlag);
-
     }
+    
 
-    return loseFlag;
+     return false;
+
 
 }
+
+
+    // //the playerPosList array size must be >= 1 to check for collision 
+    //     //MacUILib_printf("posListSize status: %d\n", posListSize);
+
+
+    //     for(int i = 1; i < posListSize; i++){
+
+    //         //coords are saved into arrayElements variable (type ObjPos)
+    //         playerPosList->getElement(arrayElements, i);
+
+    //         /*
+    //         MacUILib_printf("currHeadC.x status: %d\n", currHeadC.x);
+    //         MacUILib_printf("currHeadC.y status: %d\n", currHeadC.y);
+    //         MacUILib_printf("arrayElements.x status: %d\n", arrayElements.x);
+    //         MacUILib_printf("arrayElements.y status: %d\n", arrayElements.y);
+    //         */
+
+    //         if(currHeadC.x == arrayElements.x && currHeadC.y == arrayElements.y){
+    //         if(arrayElements.isPosEqual(currHeadC)){
+    //             //set the loseFlag to true
+    //             return true;
+    //             //MacUILib_printf("loseFlag status: %d\n", loseFlag);
+
+    //             //set the exit flag to true
+    //             mainGameMechsRef->setExitTrue();
+    //             MacUILib_printf("exitFlag status: %d\n",  mainGameMechsRef->getExitFlagStatus());
+
+    //         }
+    //     }
+    // }
+
+    //     return false;
+    //     //MacUILib_printf("ELSE loseFlag status: %d\n", loseFlag);
+
 
