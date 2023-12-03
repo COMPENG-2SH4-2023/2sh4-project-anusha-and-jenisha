@@ -104,11 +104,6 @@ void Player::updatePlayerDir()
         
         switch(input)
         {      
-            case 27: //esc exit key
-
-                mainGameMechsRef->setExitTrue();
-                break;
-
             
             case 'w':  //press w (UP)
         
@@ -143,6 +138,10 @@ void Player::updatePlayerDir()
                 }
 
                 break;
+
+            case 'q':  //press q (EXIT)
+              mainGameMechsRef->setExitTrue();
+          break;
 
             default:
                 break;
@@ -270,8 +269,6 @@ void Player::movePlayer()
     }
 
 
-
-
     if(checkSelfCollision()==true){
 
         mainGameMechsRef->setLoseFlag();
@@ -286,10 +283,17 @@ void Player::movePlayer()
             increasePlayerLength();
              // Generate new food
             mainFoodRef->generateFood(*playerPosList);
+            mainFoodRef->generateFood(*playerPosList);
+            mainGameMechsRef->incrementScore();
         }
 
         playerPosList->insertHead(currHead);
         playerPosList->removeTail();
+
+        if (checkSpecialFoodConsumption()) {
+                    //foodBucket->removeTail();
+
+    }
  
         
     }
@@ -315,6 +319,20 @@ bool Player::checkFoodConsumption()
     return (currHead.x == foodPos.x && currHead.y == foodPos.y);
 }
 
+bool Player::checkSpecialFoodConsumption() {
+    objPos currHead;
+    playerPosList->getHeadElement(currHead);
+
+    objPos specialFoodPos;
+    mainFoodRef->getSpecialFoodPos(specialFoodPos);
+
+    (currHead.x == specialFoodPos.x && currHead.y == specialFoodPos.y) 
+
+        return true;
+    
+
+    return false;
+}
 
 void Player::increasePlayerLength()
 {
@@ -347,8 +365,6 @@ bool Player::checkSelfCollision(){
     
 
      return false;
-
-
 }
 
 
