@@ -25,6 +25,10 @@ Food* myFood;
  //get the position of the food
     objPos foodPos;
 
+//declare thse global
+    objPosArrayList* playerBody;
+    objPos tempBody;
+
 //bool exitFlag;
 
 void Initialize(void);
@@ -71,7 +75,7 @@ void Initialize(void)
     //myFood->generateFood(foodPos);
 
     //newly added here
-    //objPosArrayList* playerBody = myPlayer->getPlayerPos();
+    playerBody = myPlayer->getPlayerPos();
     //objPos tempBody;
 
 
@@ -131,7 +135,8 @@ void DrawScreen(void)
     //Why pass tempPos in? ans: the input parameter of the function is (objPos &returnPos) an address of type objPos
 
     //originally here
-    objPosArrayList* playerBody = myPlayer->getPlayerPos();
+    //objPosArrayList* 
+    playerBody = myPlayer->getPlayerPos();
     objPos tempBody;
 
    
@@ -142,8 +147,8 @@ void DrawScreen(void)
     int sizeX = myGM->getBoardSizeX();
     int sizeY = myGM->getBoardSizeY();
 
-   //get the position of the food
-   myFood->getFoodPos(foodPos);
+   //get the position of the food -ADD THIS BACK
+   //myFood->getFoodPos(foodPos);
 
     
 
@@ -179,9 +184,14 @@ void DrawScreen(void)
 
       //MacUILib_printf("\nScore: %d", score);
    int score = myGM->getScore();
-   MacUILib_printf("\nScore: %d", score);
-   MacUILib_printf("\nFood Position: (%d, %d)\n", foodPos.x, foodPos.y);
+   MacUILib_printf("\nScore: %d\n", score);
+   //MacUILib_printf("\nFood Position: (%d, %d)\n", foodPos.x, foodPos.y);
    MacUILib_printf("lose Flag status: %d \n", myGM->getLoseFlagStatus());
+    MacUILib_printf("list size: %d \n", playerBody->getSize());
+    MacUILib_printf("constructor call: %d\n", myPlayer->constrFlag());
+    //insert/rem head/tail
+    //insertHead();)
+
 
     //must access the x and y position coords and symbol, then update their location in the symbolArray
     //update the xy coords and position of the symbol
@@ -189,7 +199,7 @@ void DrawScreen(void)
 
     
     //put the food symbol in the array 
-    symbolArray[foodPos.x][foodPos.y] = 'o';
+    //symbolArray[foodPos.x][foodPos.y] = 'o';
 
     
 

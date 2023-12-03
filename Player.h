@@ -32,6 +32,7 @@ class Player
 
         //check for self collision
         bool checkSelfCollision();
+        int constrFlag();
 
 
 

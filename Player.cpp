@@ -21,6 +21,12 @@ Player::Player(GameMechs* thisGMRef, Food* thisFoodRef)
     //create an array on the heap
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(tempPos);
+    
+    
+    constrFlag();
+  
+    //constrFlag = 1;
+    MacUILib_printf("Constructor Called! \n");
 
     /*playerPosList->insertHead(tempPos);
     playerPosList->insertHead(tempPos);
@@ -40,6 +46,12 @@ Player::Player(GameMechs* thisGMRef, Food* thisFoodRef)
     //.setObjPos is a function in objPos.cpp
     //playerPos.setObjPos(5, 9, '*');
     //playerPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '*');
+}
+
+int Player::constrFlag(){
+
+    int constrFlag = 1;
+    return constrFlag;
 }
 
 
@@ -200,10 +212,10 @@ void Player::movePlayer()
       //remove the symbolArray stuff here when you've confirmed this
      if(myDir == STATE_UP &&  currHead.x  == 0){
          
-         /*
+         
          currHead.symbol = '#';
-         MacUILib_printf("STATE UP x = 0 # \n");
-        */
+        // MacUILib_printf("STATE UP x = 0 # \n");
+        
         
         //symbolArray[movePos.x][movePos.y] = movePos.symbol;
         
@@ -214,9 +226,9 @@ void Player::movePlayer()
 
     }else if(myDir == STATE_LEFT &&  currHead.y  == 0 ){
         
-       /* currHead.symbol = '#';
-        MacUILib_printf("STATE LEFT y = 0 # \n");
-        */
+        currHead.symbol = '#';
+        //MacUILib_printf("STATE LEFT y = 0 # \n");
+        
 
         //symbolArray[movePos.x][movePos.y] = movePos.symbol;
 
@@ -227,9 +239,9 @@ void Player::movePlayer()
 
     }else if(myDir == STATE_DOWN &&  currHead.x == 9){  //xlim) //9 //board goes from 0-29 
 
-    /*
+    
         currHead.symbol = '#';
-         MacUILib_printf("STATE DOWN x = 9 # \n");
+        /* MacUILib_printf("STATE DOWN x = 9 # \n");
          MacUILib_printf("max x coord: %d \n", xlim); // mainGameMechsRef->getBoardSizeX()-1);
          MacUILib_printf("currHead.x : %d \n", currHead.x);
          MacUILib_printf("myDir : %d \n", myDir);
@@ -243,9 +255,9 @@ void Player::movePlayer()
 
     }else if(myDir == STATE_RIGHT &&  currHead.y == ylim){ //mainGameMechsRef->getBoardSizeY()-1){ //19 //board from 0-9
 
-        /*
+        
          currHead.symbol = '#';
-         MacUILib_printf("STATE DOWN x = 29 # \n");
+        /* MacUILib_printf("STATE DOWN x = 29 # \n");
          MacUILib_printf("max x coord: %d \n", mainGameMechsRef->getBoardSizeY()-1);
         */
         
@@ -264,14 +276,17 @@ void Player::movePlayer()
        
     }*/
 
+ 
+
 
     //new current head should be inserted to the head of the list
     playerPosList->insertHead(currHead);
 
     //then remove tail
     playerPosList->removeTail();
-
-    //playerPosList->insertHead(currHead);
+    
+/*
+    playerPosList->insertHead(currHead);
 
     objPos foodPos;
     mainFoodRef->getFoodPos(foodPos);
@@ -290,7 +305,7 @@ void Player::movePlayer()
     {
         playerPosList->removeTail();
     }
-
+*/
 
     //need to change the symbol of the 2nd array element back to *
     objPos tempbody_pos2;
@@ -319,9 +334,9 @@ bool Player::checkFoodConsumption()
 void Player::increasePlayerLength()
 {
     // Insert the head, but DO NOT remove the tail
-    objPos currHead;
-    playerPosList->getHeadElement(currHead);
-    playerPosList->insertHead(currHead);
+    objPos newHead;
+    playerPosList->getHeadElement(newHead);
+    playerPosList->insertHead(newHead);
 }
 
 //must check for self collision

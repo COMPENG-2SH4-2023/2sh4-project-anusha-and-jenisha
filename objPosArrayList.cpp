@@ -50,17 +50,26 @@ void objPosArrayList::insertHead(objPos thisPos)
 
     }else{
 
-        //move every element back by one index
-        for(int i=listSize; i > 0; i--){
+        if(listSize != 0){
+            
+            //move every element back by one index
+            for(int i=listSize; i > 0; i--){
 
-            aList[i].setObjPos(aList[i-1]);
+                aList[i].setObjPos(aList[i-1]);
+            }
+        
+            //insert the x, y coord & symbol at the head
+            aList[0].setObjPos(thisPos);
+
+            //increase the listSize by 1 bc we are inserting 1 element
+            listSize++; 
+
+        }else if (listSize == 0){
+
+            aList[0].setObjPos(thisPos);
+             //increase the listSize by 1 bc we are inserting 1 element
+            listSize++;
         }
-
-        //insert the x, y coord & symbol at the head
-        aList[0].setObjPos(thisPos);
-
-        //increase the listSize by 1 bc we are inserting 1 element
-        listSize++; 
     }
 
 }
