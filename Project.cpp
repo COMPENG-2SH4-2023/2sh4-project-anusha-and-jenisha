@@ -105,7 +105,7 @@ void GetInput(void)
 void RunLogic(void)
 {
 
-    //myFood->getFoodPos(foodPos);
+    myFood->getFoodPos(foodPos);
 
     //call the updatePlayerDir method
     //this method checks if the keyboard input is "wasd" and updates the position accordingly
@@ -148,7 +148,7 @@ void DrawScreen(void)
     int sizeY = myGM->getBoardSizeY();
 
    //get the position of the food -ADD THIS BACK
-   //myFood->getFoodPos(foodPos);
+   myFood->getFoodPos(foodPos);
 
     
 
@@ -195,9 +195,6 @@ void DrawScreen(void)
      MacUILib_printf("Head Element: %d %d\n", myPos.x, myPos.y );
     
     
-    //insert/rem head/tail
-    //insertHead();)
-
 
     //must access the x and y position coords and symbol, then update their location in the symbolArray
     //update the xy coords and position of the symbol
@@ -205,7 +202,7 @@ void DrawScreen(void)
 
     
     //put the food symbol in the array 
-    //symbolArray[foodPos.x][foodPos.y] = 'o';
+    symbolArray[foodPos.x][foodPos.y] = 'o';
 
     
 

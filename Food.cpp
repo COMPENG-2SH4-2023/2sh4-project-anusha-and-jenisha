@@ -2,29 +2,24 @@
 #include "MacUILib.h"
 #include "Food.h"
 
-
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
 
-
 using namespace std;
-
 
 Food::Food(GameMechs* thisGMRef)
 {
-   //game mech reference input - pointer
-   //assign pointer to input
-   mainGameMechsRef = thisGMRef;
-   foodPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, 'o');
+    //game mech reference input - pointer
+    //assign pointer to input
+    mainGameMechsRef = thisGMRef;
+    foodPos.setObjPos(2, 2, 'o'); //mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, 'o');
 }
-
 
 Food::~Food()
 {
-   cout << "Destructor Called" << endl;
+    cout << "Destructor Called" << endl;
 }
-
 
 void Food::generateFood(objPosArrayList& playerPosList)
 {
@@ -56,6 +51,7 @@ void Food::generateFood(objPosArrayList& playerPosList)
 }
 void Food::getFoodPos(objPos &returnPos)
 {
-   // Step 2: Food objPos getter method
-   returnPos = foodPos;
+    // Step 2: Food objPos getter method
+    returnPos = foodPos;
+
 }

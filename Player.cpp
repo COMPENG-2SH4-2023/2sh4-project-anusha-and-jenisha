@@ -286,8 +286,8 @@ void Player::movePlayer()
     //then remove tail
     playerPosList->removeTail();
 
-/*
-    playerPosList->insertHead(currHead);
+//////
+    //playerPosList->insertHead(currHead);
 
     objPos foodPos;
     mainFoodRef->getFoodPos(foodPos);
@@ -302,11 +302,11 @@ void Player::movePlayer()
         mainFoodRef->generateFood(*playerPosList); 
         mainGameMechsRef->incrementScore();
     }
-    else
+   /* else
     {
         playerPosList->removeTail();
-    }
-*/
+    }*/
+///////////
 
     //need to change the symbol of the 2nd array element back to *
     objPos tempbody_pos2;
@@ -368,12 +368,12 @@ bool Player:: checkSelfCollision(){
             //coords are saved into arrayElements variable (type ObjPos)
             playerPosList->getElement(arrayElements, i);
 
-            
+            /*
             MacUILib_printf("currHeadC.x status: %d\n", currHeadC.x);
             MacUILib_printf("currHeadC.y status: %d\n", currHeadC.y);
             MacUILib_printf("arrayElements.x status: %d\n", arrayElements.x);
             MacUILib_printf("arrayElements.y status: %d\n", arrayElements.y);
-            
+            */
 
             if(currHeadC.x == arrayElements.x && currHeadC.y == arrayElements.y){
             //if(arrayElements.isPosEqual(currHeadC)){
