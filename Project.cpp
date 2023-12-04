@@ -201,9 +201,7 @@ void DrawScreen(void)
    MacUILib_printf("lose Flag status: %d \n", myGM->getLoseFlagStatus());
     MacUILib_printf("list size: %d \n", playerBody->getSize());
     MacUILib_printf("constructor call: %d\n", myPlayer->constrFlag());
-     MacUILib_printf("Head Element: %d %d\n", myPos.x, myPos.y );
-     MacUILib_printf("Second Element: %d %d\n", element2.x, element2.y);
-    MacUILib_printf("Third Element: %d %d\n", element3.x, element3.y);
+
     
 
     //must access the x and y position coords and symbol, then update their location in the symbolArray
@@ -214,20 +212,9 @@ void DrawScreen(void)
 
 
 
-    //draw the new food and special food
-    for (int i = 0; i < 3; ++i) {
-        objPos foodPos;
-        myFood->getFoodBucketElement(foodPos, i);
+    
         symbolArray[foodPos.x][foodPos.y] = 'o';
-    }
- 
-    // Draw special food item; get the tail position
-    objPos specialFoodPos;
-    myFood->getSpecialFoodPosTail(specialFoodPos);
-    //myFood->getSpecialFoodPos(specialFoodPos);
-    symbolArray[specialFoodPos.x][specialFoodPos.y] = 'X';
- 
-
+    
 
     
     //put the food symbol in the array 
