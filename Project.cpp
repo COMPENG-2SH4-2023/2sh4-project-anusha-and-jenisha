@@ -8,12 +8,15 @@
 
 using namespace std;
 
+//100000
 #define DELAY_CONST 100000
 
 //board size is defined in GameMechs.h class
 //global declaration of variable of type objPos
 //we can use any of the functions defined in the objPos.h class
     objPos myPos;
+objPos element2;
+objPos element3;
 
 //these are both references (pointers) of their respective class type
 GameMechs* myGM;
@@ -30,6 +33,8 @@ Food* myFood;
     objPos tempBody;
 
 //bool exitFlag;
+
+bool collisionFlag = false;
 
 void Initialize(void);
 void GetInput(void);
@@ -107,14 +112,15 @@ void RunLogic(void)
 
     myFood->getFoodPos(foodPos);
 
+
+
     //call the updatePlayerDir method
     //this method checks if the keyboard input is "wasd" and updates the position accordingly
     myPlayer->updatePlayerDir();
 
     //must move the player after updating position in previous line
     myPlayer->movePlayer();
-
-
+    
     //collision detection ///////////////////////
     myPlayer->checkSelfCollision();
 
@@ -182,10 +188,13 @@ void DrawScreen(void)
         }
     }
 
-
+    
     playerBody->getHeadElement(myPos);
+    playerBody->getElement(element2, 1);
+    playerBody->getElement(element3, 2);
 
-      //MacUILib_printf("\nScore: %d", score);
+
+     //MacUILib_printf("\nScore: %d", score);
    int score = myGM->getScore();
    MacUILib_printf("\nScore: %d\n", score);
    //MacUILib_printf("\nFood Position: (%d, %d)\n", foodPos.x, foodPos.y);
@@ -193,16 +202,36 @@ void DrawScreen(void)
     MacUILib_printf("list size: %d \n", playerBody->getSize());
     MacUILib_printf("constructor call: %d\n", myPlayer->constrFlag());
      MacUILib_printf("Head Element: %d %d\n", myPos.x, myPos.y );
-    
+     MacUILib_printf("Second Element: %d %d\n", element2.x, element2.y);
+    MacUILib_printf("Third Element: %d %d\n", element3.x, element3.y);
     
 
     //must access the x and y position coords and symbol, then update their location in the symbolArray
     //update the xy coords and position of the symbol
     //symbolArray[tempPos.x][tempPos.y] = tempPos.symbol;
 
+
+
+
+
+    //draw the new food and special food
+    for (int i = 0; i < 3; ++i) {
+        objPos foodPos;
+        myFood->getFoodBucketElement(foodPos, i);
+        symbolArray[foodPos.x][foodPos.y] = 'o';
+    }
+ 
+    // Draw special food item; get the tail position
+    objPos specialFoodPos;
+    myFood->getSpecialFoodPosTail(specialFoodPos);
+    //myFood->getSpecialFoodPos(specialFoodPos);
+    symbolArray[specialFoodPos.x][specialFoodPos.y] = 'X';
+ 
+
+
     
     //put the food symbol in the array 
-    symbolArray[foodPos.x][foodPos.y] = 'o';
+    //symbolArray[foodPos.x][foodPos.y] = 'o';
 
     
 

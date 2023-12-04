@@ -27,6 +27,12 @@ class Food
     void getFoodPos(objPos &returnPos);
     void getSpecialFoodPos(objPos& returnPos);
 
+    void getFoodBucketElement(objPos& returnPos, int index);
+
+    
+   
+    void getSpecialFoodPosTail(objPos& returnPos);
+
     // Need a reference to the Main Game Mechanisms
     
 };

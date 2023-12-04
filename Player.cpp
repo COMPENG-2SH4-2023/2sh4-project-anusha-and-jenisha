@@ -289,12 +289,15 @@ void Player::movePlayer()
         if (checkSpecialFoodConsumptionTail())
         {
             //remove tail of the snake if the snake length is greater than 1
-            
+            if(playerPosList->getSize() > 1){
+                playerPosList->removeTail();
 
-        }
+            }
 
-        //checking if the head overlaps with normal food
-        if (checkSpecialFoodConsumption())
+            //generate new food
+            mainFoodRef->generateSpecialFood(*playerPosList);
+
+        }else if (checkSpecialFoodConsumption())  //checking if the head overlaps with normal food
         {
             // If yes, increase the player length without removing the tail
             increasePlayerLength();
@@ -341,10 +344,12 @@ bool Player::checkFoodConsumption()
     objPos currHead;
     playerPosList->getHeadElement(currHead);
 
+    //getFoodBucketElement(objPos& returnPos, int index)
     
     objPos foodPos;
     mainFoodRef->getFoodPos(foodPos);
 
+   
     return (currHead.x == foodPos.x && currHead.y == foodPos.y);
 }
 
@@ -361,7 +366,7 @@ bool Player:: checkSpecialFoodConsumptionTail(){
 
     
     //only want to check if there was a collision with the tail of the foodBucket array
-    return (currHeadS.x == specialFoodPosTail.x && currHeadS.y == specialFoodPosTail.y) {
+    return (currHeadS.x == specialFoodPosTail.x && currHeadS.y == specialFoodPosTail.y);
 
 
 }
@@ -373,15 +378,29 @@ bool Player::checkSpecialFoodConsumption() {
     playerPosList->getHeadElement(currHead);
 
     objPos specialFoodPos;
-    mainFoodRef->getSpecialFoodPos(specialFoodPos);
+    //mainFoodRef->getSpecialFoodPos(specialFoodPos);
 
    
+    //may need a for loop to check the 3 normal food items in the foodbucket array
     //this should check for a collision with the 3 normal food items
+    for(int i = 0; i < 3; i++){
 
-    //check if there was a collision with the normal food
-    return (currHead.x == specialFoodPos.x && currHead.y == specialFoodPos.y); 
-
+        //obtain the food coords at each index
+        mainFoodRef->getFoodBucketElement(specialFoodPos, i);
+        
     
+        //check if there was a collision with the normal food
+        if (currHead.x == specialFoodPos.x && currHead.y == specialFoodPos.y){
+
+            return true;
+            break;
+
+        }else{
+            return false;
+
+        } 
+
+    }
 
 }
 

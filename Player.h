@@ -28,6 +28,7 @@ class Player
 
         //new functions added for feature 2
         bool checkFoodConsumption();
+        bool checkSpecialFoodConsumptionTail();
         bool checkSpecialFoodConsumption();
         void increasePlayerLength();
 
