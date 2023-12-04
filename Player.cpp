@@ -13,7 +13,7 @@ Player::Player(GameMechs* thisGMRef, Food* thisFoodRef)
 
 
     myDir = STATE_IDLE; //USED to be STOP, change back if causing errors STOP;
-    
+
     //create a temporary position and then insert it in the list (insertHead)
     objPos tempPos;
     tempPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '*');
@@ -22,10 +22,10 @@ Player::Player(GameMechs* thisGMRef, Food* thisFoodRef)
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(tempPos);
     //playerPosList->insertHead(tempPos);
-    
-    
+
+
     constrFlag();
-  
+
     //constrFlag = 1;
     MacUILib_printf("Constructor Called! \n");
 
@@ -33,12 +33,11 @@ Player::Player(GameMechs* thisGMRef, Food* thisFoodRef)
     playerPosList->insertHead(tempPos);
     playerPosList->insertHead(tempPos);
     playerPosList->insertHead(tempPos);
-
     playerPosList->insertHead(tempPos);
     playerPosList->insertHead(tempPos);
     playerPosList->insertHead(tempPos);
     playerPosList->insertHead(tempPos);*/
-    
+
     // more actions to be included
 
 
@@ -101,7 +100,7 @@ void Player::updatePlayerDir()
     //getInput() is the name of the function that we are reading the input from
     char input = mainGameMechsRef->getInput();
 
-        
+
         switch(input)
         {      
             case 27: //esc exit key
@@ -109,9 +108,9 @@ void Player::updatePlayerDir()
                 mainGameMechsRef->setExitTrue();
                 break;
 
-            
+
             case 'w':  //press w (UP)
-        
+
                 if (myDir == STATE_LEFT || myDir == STATE_RIGHT || myDir == STATE_UP || myDir == STATE_IDLE){
                     //must update the state
                     myDir = STATE_UP;
@@ -125,7 +124,7 @@ void Player::updatePlayerDir()
                     myDir = STATE_LEFT; 
                 } 
                 break;
-            
+
             case 's':  //press s (DOWN)
 
                 if (myDir == STATE_LEFT || myDir == STATE_RIGHT || myDir == STATE_DOWN || myDir == STATE_IDLE){
@@ -136,7 +135,7 @@ void Player::updatePlayerDir()
                 break;
 
             case 'd':  //press d (RIGHT)
-                
+
                 if (myDir == STATE_IDLE || myDir == STATE_UP || myDir == STATE_DOWN || myDir ==  STATE_RIGHT){                   
                     //must update the state
                     myDir = STATE_RIGHT;
@@ -171,7 +170,7 @@ void Player::movePlayer()
 
    //update player position based on STATE not input character
     if(myDir == STATE_UP){
-        
+
         //update the X-position in the array
         currHead.x = currHead.x - 1; //posX = posX - 1;
 
@@ -187,23 +186,23 @@ void Player::movePlayer()
         }*/
 
     }else if(myDir == STATE_LEFT){
-        
+
         //update the Y-position in the array
         currHead.y = currHead.y -1; //posY = posY - 1;
-        
+
 
     }else if(myDir == STATE_DOWN){
 
         //update the X-position in the array
         currHead.x = currHead.x + 1; //posX = posX + 1;
 
-       
+
     }else if(myDir == STATE_RIGHT){
 
         //update the Y-position in the array
         currHead.y = currHead.y + 1; //posY = posY + 1;
 
-    
+
     }
 
 
@@ -212,24 +211,24 @@ void Player::movePlayer()
       //i think you can just change the array in the draw method by calling these different coords and symbols!!!
       //remove the symbolArray stuff here when you've confirmed this
      if(myDir == STATE_UP &&  currHead.x  == 0){
-         
-         
+
+
          currHead.symbol = '#';
         // MacUILib_printf("STATE UP x = 0 # \n");
-        
-        
+
+
         //symbolArray[movePos.x][movePos.y] = movePos.symbol;
-        
+
         //update the X-position in the array
         //the playerPos should be 1 less than the X boardsize (ie. 1 less than the # symbol)
         currHead.x = mainGameMechsRef->getBoardSizeX()-2; //8;
         currHead.symbol = '*';
 
     }else if(myDir == STATE_LEFT &&  currHead.y  == 0 ){
-        
+
         currHead.symbol = '#';
         //MacUILib_printf("STATE LEFT y = 0 # \n");
-        
+
 
         //symbolArray[movePos.x][movePos.y] = movePos.symbol;
 
@@ -240,7 +239,7 @@ void Player::movePlayer()
 
     }else if(myDir == STATE_DOWN &&  currHead.x == 9){  //xlim) //9 //board goes from 0-29 
 
-    
+
         currHead.symbol = '#';
         /* MacUILib_printf("STATE DOWN x = 9 # \n");
          MacUILib_printf("max x coord: %d \n", xlim); // mainGameMechsRef->getBoardSizeX()-1);
@@ -256,165 +255,81 @@ void Player::movePlayer()
 
     }else if(myDir == STATE_RIGHT &&  currHead.y == ylim){ //mainGameMechsRef->getBoardSizeY()-1){ //19 //board from 0-9
 
-        
+
          currHead.symbol = '#';
         /* MacUILib_printf("STATE DOWN x = 29 # \n");
          MacUILib_printf("max x coord: %d \n", mainGameMechsRef->getBoardSizeY()-1);
         */
-        
+
         //symbolArray[movePos.x][movePos.y] = movePos.symbol;
 
         //update the Y-position in the array
         currHead.y = 1;
         currHead.symbol = '*';
     }
-    /*}else{
-        currHead.symbol = '*';
-        MacUILib_printf("head symbol * \n");
-        //normal movement - no wraparound here
-        
-        //symbolArray[movePos.x][movePos.y] = movePos.symbol;
-       
-    }*/
 
- 
-      if(checkSelfCollision()==true){
+
+
+
+    if(checkSelfCollision()==true){
 
         mainGameMechsRef->setLoseFlag();
         mainGameMechsRef->setExitTrue();
 
     } else{
-       
-        // Checking if the head overlaps with the special food (stored in tail position)
-        if (checkSpecialFoodConsumptionTail())
+
+
+        if (checkFoodConsumption())
         {
-            //remove tail of the snake if the snake length is greater than 1
-            if(playerPosList->getSize() > 1){
-                playerPosList->removeTail();
-
-            }
-
-            //generate new food
-            mainFoodRef->generateSpecialFood(*playerPosList);
-
-        }else if (checkSpecialFoodConsumption())  //checking if the head overlaps with normal food
-        {
-            // If yes, increase the player length without removing the tail
+             // If yes, increase the player length without removing the tail
             increasePlayerLength();
-
-            // Generate new food (special food)
-            mainFoodRef->generateSpecialFood(*playerPosList); 
-            //mainFoodRef->generateFood(*playerPosList);
+             // Generate new food
+            mainFoodRef->generateFood(*playerPosList);
             mainGameMechsRef->incrementScore();
-
-            
         }
-  
 
-        //new current head should be inserted to the head of the list
         playerPosList->insertHead(currHead);
-
-        //then remove tail
         playerPosList->removeTail();
 
-           //if (checkSpecialFoodConsumption()) {
-                    //foodBucket->removeTail();
-            //}
 
     }
 
-    //objPos foodPos;
-    //mainFoodRef->getFoodPos(foodPos);
-
-    
-    //need to change the symbol of the 2nd array element back to *
+    // Check if the head overlaps with the food
     objPos tempbody_pos2;
     playerPosList->getElement(tempbody_pos2, 1);
     tempbody_pos2.symbol = '*';
 
     playerPosList->updateSymbol(1, tempbody_pos2.symbol);
 
-
-
-
 }
+
 
 bool Player::checkFoodConsumption()
 {
     objPos currHead;
     playerPosList->getHeadElement(currHead);
 
-    //getFoodBucketElement(objPos& returnPos, int index)
-    
     objPos foodPos;
     mainFoodRef->getFoodPos(foodPos);
 
-   
     return (currHead.x == foodPos.x && currHead.y == foodPos.y);
 }
 
 
-bool Player:: checkSpecialFoodConsumptionTail(){
-
-    //checks if there was a special food tail collision
-    objPos currHeadS;
-    playerPosList->getHeadElement(currHeadS);
-
-    //get the tail coords of the special food
-    objPos specialFoodPosTail;
-    mainFoodRef->getSpecialFoodPosTail(specialFoodPosTail);
-
-    
-    //only want to check if there was a collision with the tail of the foodBucket array
-    return (currHeadS.x == specialFoodPosTail.x && currHeadS.y == specialFoodPosTail.y);
-
-
-}
-
-bool Player::checkSpecialFoodConsumption() {
-
-    //checks  if there was a collision with the 3 normal food items
-    objPos currHead;
-    playerPosList->getHeadElement(currHead);
-
-    objPos specialFoodPos;
-    //mainFoodRef->getSpecialFoodPos(specialFoodPos);
-
-   
-    //may need a for loop to check the 3 normal food items in the foodbucket array
-    //this should check for a collision with the 3 normal food items
-    for(int i = 0; i < 3; i++){
-
-        //obtain the food coords at each index
-        mainFoodRef->getFoodBucketElement(specialFoodPos, i);
-        
-    
-        //check if there was a collision with the normal food
-        if (currHead.x == specialFoodPos.x && currHead.y == specialFoodPos.y){
-
-            return true;
-            break;
-
-        }else{
-            return false;
-
-        } 
-
-    }
-
-}
-
 void Player::increasePlayerLength()
 {
     // Insert the head, but DO NOT remove the tail
-    objPos newHead;
-    playerPosList->getHeadElement(newHead);
-    playerPosList->insertHead(newHead);
+    // This will cause the list size, hence the snake length, to grow by 1
+    // The function already does this during food consumption, so this is just an example
+    objPos currHead;
+    playerPosList->getHeadElement(currHead);
+    playerPosList->insertHead(currHead);
 }
 
 
+
 bool Player::checkSelfCollision(){
-  
+
     objPos tempBodyPart;
     objPos currHeadC;
     playerPosList->getHeadElement(currHeadC);
@@ -424,87 +339,15 @@ bool Player::checkSelfCollision(){
      for(i = 1; i < playerPosList->getSize(); i++){
         playerPosList->getElement(tempBodyPart, i);
 
-        
+
         if(currHeadC.isPosEqual(&tempBodyPart)){
             return true;
         }
     }
-    
+
 
      return false;
 
 
 }
 
-
-/*
-//must check for self collision
-bool Player:: checkSelfCollision(){
-
-    //must check if the head coords = any of the snake body coords
-    //need to loop through elements in playerPosList array
-    
-    //getting the current head coords
-    objPos currHeadC;
-    playerPosList->getHeadElement(currHeadC); 
-
-    //must get listSize
-    //objPosArrayList playerPosRef;
-    //objPos tempBodyPart;
-    int posListSize = playerPosList->getSize();
-
-    //array coords of each element will be saved here
-    objPos arrayElements;
-    bool loseFlag = false;
-
-    //the playerPosList array size must be >= 1 to check for collision 
-    if(posListSize > 1){
-        //MacUILib_printf("posListSize status: %d\n", posListSize);
-
-
-        for(int i = 1; i < posListSize; i++){
-
-            //coords are saved into arrayElements variable (type ObjPos)
-            playerPosList->getElement(arrayElements, i);
-
-            
-            //MacUILib_printf("currHeadC.x status: %d\n", currHeadC.x);
-            //MacUILib_printf("currHeadC.y status: %d\n", currHeadC.y);
-           // MacUILib_printf("arrayElements.x status: %d\n", arrayElements.x);
-            //MacUILib_printf("arrayElements.y status: %d\n", arrayElements.y);
-            
-
-            if(currHeadC.isPosEqual(&arrayElements)){  //(currHeadC.x == arrayElements.x && currHeadC.y == arrayElements.y){
-            //if(arrayElements.isPosEqual(currHeadC)){
-                //set the loseFlag to true
-                //loseFlag = true;
-                
-                
-                mainGameMechsRef->setLoseFlag();
-                 
-                //should be set equal to true 
-                loseFlag = mainGameMechsRef->getLoseFlagStatus();
-
-                //MacUILib_printf("loseFlag status: %d\n", loseFlag);
-
-                //set the exit flag to true
-                //mainGameMechsRef->setExitTrue();
-                //MacUILib_printf("exitFlag status: %d\n",  mainGameMechsRef->getExitFlagStatus());
-
-
-            }
-        }
-    }else{
-
-        loseFlag = false;
-        //mainGameMechsRef->setLoseFlag(loseFlag);
-        //MacUILib_printf("ELSE loseFlag status: %d\n", loseFlag);
-
-    }
-
-    return loseFlag;
-
-}
-
-
-*/
