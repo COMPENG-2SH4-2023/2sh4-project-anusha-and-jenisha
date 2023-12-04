@@ -138,30 +138,22 @@ void DrawScreen(void)
 {
     MacUILib_clearScreen();   
 
-    //Why pass tempPos in? ans: the input parameter of the function is (objPos &returnPos) an address of type objPos
-
-    //originally here
-    //objPosArrayList* 
     playerBody = myPlayer->getPlayerPos();
     objPos tempBody;
 
    
-    //initialize the gameboard as an array (# = border) 
+
     char symbolArray [10][30];
 
-    //save the boardsize values into variables
+
     int sizeX = myGM->getBoardSizeX();
     int sizeY = myGM->getBoardSizeY();
 
-   //get the position of the food -ADD THIS BACK
+
    myFood->getFoodPos(foodPos);
 
     
 
-
-    //For loop assigns #'s and ' 's to the array (no-printing here)
-    //Border height=10 (0-9) width=20 (0-19)
-    //outer loop controls iterating through the height, inner loop checks width
     for (int i = 0; i < sizeX; i++){ //10
 
         for(int j = 0; j < sizeY; j++){ //20
@@ -198,27 +190,16 @@ void DrawScreen(void)
    int score = myGM->getScore();
    MacUILib_printf("\nScore: %d\n", score);
    //MacUILib_printf("\nFood Position: (%d, %d)\n", foodPos.x, foodPos.y);
-   MacUILib_printf("lose Flag status: %d \n", myGM->getLoseFlagStatus());
-    MacUILib_printf("list size: %d \n", playerBody->getSize());
-    MacUILib_printf("constructor call: %d\n", myPlayer->constrFlag());
-
-    
-
-    //must access the x and y position coords and symbol, then update their location in the symbolArray
-    //update the xy coords and position of the symbol
-    //symbolArray[tempPos.x][tempPos.y] = tempPos.symbol;
-
-
+//    MacUILib_printf("lose Flag status: %d \n", myGM->getLoseFlagStatus());
+//     MacUILib_printf("list size: %d \n", playerBody->getSize());
+//     MacUILib_printf("constructor call: %d\n", myPlayer->constrFlag());
 
 
 
     
-        symbolArray[foodPos.x][foodPos.y] = 'o';
+    symbolArray[foodPos.x][foodPos.y] = 'o';
     
 
-    
-    //put the food symbol in the array 
-    //symbolArray[foodPos.x][foodPos.y] = 'o';
 
     
 
@@ -228,7 +209,6 @@ void DrawScreen(void)
         for(int j = 0; j < sizeY; j++){ //20
 
             MacUILib_printf("%c", symbolArray[i][j]);
-            //cout << symbolArray[i][j]; 
         }
         MacUILib_printf("\n");
        
@@ -237,7 +217,7 @@ void DrawScreen(void)
 
 
     //display the loosing message if both flags are true
-    if(myGM->getLoseFlagStatus() == true){ // && myGM->getExitFlagStatus() == true){
+    if(myGM->getLoseFlagStatus() == true){ 
         MacUILib_printf("GAME OVER!");
 
     }

@@ -54,5 +54,4 @@ void Food::getFoodPos(objPos &returnPos)
    // Step 2: Food objPos getter method
    returnPos = foodPos;
 
-
 }

@@ -269,8 +269,6 @@ void Player::movePlayer()
     }
 
 
-
-
     if(checkSelfCollision()==true){
 
         mainGameMechsRef->setLoseFlag();
@@ -318,9 +316,7 @@ bool Player::checkFoodConsumption()
 
 void Player::increasePlayerLength()
 {
-    // Insert the head, but DO NOT remove the tail
-    // This will cause the list size, hence the snake length, to grow by 1
-    // The function already does this during food consumption, so this is just an example
+
     objPos currHead;
     playerPosList->getHeadElement(currHead);
     playerPosList->insertHead(currHead);
@@ -339,7 +335,6 @@ bool Player::checkSelfCollision(){
      for(i = 1; i < playerPosList->getSize(); i++){
         playerPosList->getElement(tempBodyPart, i);
 
-
         if(currHeadC.isPosEqual(&tempBodyPart)){
             return true;
         }
@@ -347,7 +342,6 @@ bool Player::checkSelfCollision(){
 
 
      return false;
-
 
 }
 

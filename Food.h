@@ -21,20 +21,10 @@ class Food
 
     // Method for generating random food
     void generateFood(objPosArrayList& playerPosList);
-    void generateSpecialFood(objPosArrayList& playerPosList); 
 
     // Getter method for obtaining the current position of the food
     void getFoodPos(objPos &returnPos);
-    void getSpecialFoodPos(objPos& returnPos);
 
-    void getFoodBucketElement(objPos& returnPos, int index);
-
-    
-   
-    void getSpecialFoodPosTail(objPos& returnPos);
-
-    // Need a reference to the Main Game Mechanisms
-    
 };
 
 #endif

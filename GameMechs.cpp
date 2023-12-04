@@ -77,25 +77,16 @@ void GameMechs::clearInput()
 {
     //input = NULL;
     input = 0;
-
 }
 
 void GameMechs::incrementScore()
 {
-    // Increment the score and print a debug message
     score++;
-    // Add appropriate print statement for debugging
-    // For example:
-    // std::cout << "Score incremented! Current score: " << score << std::endl;
 }
 
 void GameMechs::setLoseFlag()
 {
-    // Set the lose flag and print a debug message
     loseFlag = true;
-    // Add appropriate print statement for debugging
-    // For example:
-    // std::cout << "Lose flag set to: " << (loseFlag ? "true" : "false") << std::endl;
 }
 
 bool GameMechs::getLoseFlagStatus()
