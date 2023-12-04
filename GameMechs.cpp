@@ -11,8 +11,6 @@ GameMechs::GameMechs()
     boardSizeY = 30;
     loseFlag = false;
 
-   
-
 }
 
 GameMechs::GameMechs(int boardX, int boardY)
@@ -27,8 +25,12 @@ GameMechs::GameMechs(int boardX, int boardY)
 
 }
 
-// do you need a destructor?
 
+// do you need a destructor?
+GameMechs::~GameMechs()
+{
+
+}
 
 
 bool GameMechs::getExitFlagStatus()

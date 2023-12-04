@@ -35,8 +35,7 @@ int objPosArrayList::getSize()
     return listSize;
 }
 
-//insert the snake's head at the start of the list
-//move all other elements down one index
+
 void objPosArrayList::insertHead(objPos thisPos)
 {
 
@@ -95,10 +94,6 @@ void objPosArrayList::insertTail(objPos thisPos)
 void objPosArrayList::removeHead()
 {
 
-    //MAY NEED TO CHANGE THE CONDITON HERE LATER ON
-    //in the actual game, the list size should be 1 at all times
-    //however, the test case lets you remove head when there's only 1 element in it?
-
 
     if(listSize == 0){
 
@@ -117,17 +112,13 @@ void objPosArrayList::removeHead()
         aList[listSize-1].y = 0;
         aList[listSize-1].symbol = 0;
 
-        //decrease the listSize by 1 bc we are removing 1 element at the end
+
         listSize--;
     }
 }
 
 void objPosArrayList::removeTail()
 {
-
-    //MAY NEED TO CHANGE THE CONDITON HERE LATER ON
-    //in the actual game, the list size should be 1 at all times
-    //however, the test case lets you remove tail when there's only 1 element in it?
 
 
     if(listSize == 0){

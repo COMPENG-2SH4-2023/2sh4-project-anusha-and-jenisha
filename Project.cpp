@@ -11,12 +11,9 @@ using namespace std;
 //100000
 #define DELAY_CONST 100000
 
-//board size is defined in GameMechs.h class
-//global declaration of variable of type objPos
-//we can use any of the functions defined in the objPos.h class
-    objPos myPos;
-objPos element2;
-objPos element3;
+
+objPos myPos;
+
 
 //these are both references (pointers) of their respective class type
 GameMechs* myGM;
@@ -68,50 +65,30 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    //contains an address to a structure on the heap for game mechanics
-    myGM = new GameMechs(10, 30); //define new object and constructor (initializer) is called
+    myGM = new GameMechs(10, 30);
     
     myFood = new Food(myGM);
 
     //Constructor: this sets the initial starting position of the '*' - see the Player(GameMechs* thisGMRef) method
     myPlayer = new Player(myGM, myFood);
 
-    //originally used to be here
-    //myFood->generateFood(foodPos);
+
 
     //newly added here
     playerBody = myPlayer->getPlayerPos();
-    //objPos tempBody;
 
-
-
-
-
-
-    
-
-    //OLD
-    //food
-    //objPos tempPos{1, 1, 'o'};
-    //myGM->generateFood(tempPos); //change this to an array list operation
-
-    //initialize the starting position of the symbol
-    //myPos.setObjPos(5, 9, '*');
-
-    //exitFlag = false;
 
 }
 
 void GetInput(void)
 {
-   myGM -> getInput(); // In input collection stage, collect the input ASCII character into the corresponding field in gameMechanics object using the correct setter method 
+   myGM -> getInput(); 
 }
 
 void RunLogic(void)
 {
 
     myFood->getFoodPos(foodPos);
-
 
 
     //call the updatePlayerDir method
@@ -128,8 +105,6 @@ void RunLogic(void)
 
     //clear the key input so it's not repeated processed
     myGM->clearInput(); 
-
-
 
    
 }
@@ -182,25 +157,15 @@ void DrawScreen(void)
 
     
     playerBody->getHeadElement(myPos);
-    playerBody->getElement(element2, 1);
-    playerBody->getElement(element3, 2);
+    // playerBody->getElement(element2, 1);
+    // playerBody->getElement(element3, 2);
 
 
      //MacUILib_printf("\nScore: %d", score);
    int score = myGM->getScore();
    MacUILib_printf("\nScore: %d\n", score);
-   //MacUILib_printf("\nFood Position: (%d, %d)\n", foodPos.x, foodPos.y);
-//    MacUILib_printf("lose Flag status: %d \n", myGM->getLoseFlagStatus());
-//     MacUILib_printf("list size: %d \n", playerBody->getSize());
-//     MacUILib_printf("constructor call: %d\n", myPlayer->constrFlag());
 
-
-
-    
     symbolArray[foodPos.x][foodPos.y] = 'o';
-    
-
-
     
 
     //PRINTING symbolArray[][] on the screen (including snake!!)
@@ -214,7 +179,6 @@ void DrawScreen(void)
        
         
     }
-
 
     //display the loosing message if both flags are true
     if(myGM->getLoseFlagStatus() == true){ 
